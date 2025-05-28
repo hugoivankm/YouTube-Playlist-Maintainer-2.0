@@ -1,3 +1,6 @@
+"""
+Manual tests just visible in the terminal
+"""
 
 import os
 import sys
