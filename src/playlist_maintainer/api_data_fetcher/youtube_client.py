@@ -79,19 +79,20 @@ class YouTubeClient:
                             "id": video_id,
                             "title": video_snippet.get('title'),
                             "channel_title": video_snippet.get('channelTitle'),
-                            "position": video_snippet.get('position') 
+                            "position": video_snippet.get('position')
                         })
                 next_page_token = response.get('nextPageToken')
                 if not next_page_token:
+                    print(f"--->>>{next_page_token}")
                     break;       
         
                 if not all_videos:
                     raise ValueError(f"No videos found for playlist ID: {playlist_id}. Check if the ID is correct and playlist is public.")
                 
-                return {
-                    "playlist_id": playlist_id,
-                    "videos": all_videos
-                }
+            return {
+                "playlist_id": playlist_id,
+                "videos": all_videos
+            }
                 
         except HttpError as e:
             if e.resp.status == 404:

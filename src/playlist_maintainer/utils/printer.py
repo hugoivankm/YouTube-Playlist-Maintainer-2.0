@@ -6,4 +6,5 @@ class Printer:
         """Print to terminal """
         videos: List[Dict[str, Any]] = playlist['videos']
         for video in videos:
-            print(f"{video['postion']} {video['title']}")
+            print(f"{video['position']} {video['title']}")
+            

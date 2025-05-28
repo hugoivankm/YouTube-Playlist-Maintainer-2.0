@@ -1,0 +1,24 @@
+[project]
+name = "youtubeplaylistmaintainer2"
+version = "2.0.0"
+description = "Tool to simplify the maintenance of YouTubePlayLists"
+authors = [
+    {name = "hugoivankm",email = "hugoivank@gmail.com"}
+]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "google-api-python-client (>=2.170.0,<3.0.0)",
+    "python-dotenv (>=1.1.0,<2.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+packages = [
+    { include = "playlist_maintainer", from = "src" }
+]
