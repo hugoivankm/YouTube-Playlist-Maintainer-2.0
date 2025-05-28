@@ -1,5 +1,5 @@
 """
-Manual tests just visible in the terminal
+Manual tests just to visualize in the terminal
 """
 
 import os
