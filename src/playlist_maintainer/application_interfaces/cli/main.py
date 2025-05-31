@@ -12,19 +12,20 @@ from playlist_maintainer.configs import settings
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+from playlist_maintainer.application_interfaces.file_exporters.export_to_text import export_to_text
+from playlist_maintainer.application_interfaces.file_exporters.export_to_pdf import export_to_pdf
 from playlist_maintainer.utils.printer import Printer
 
 try:
-    
     TEST_PLAYLIST_ID = "PLF4zXdEnM3eU2TSmpJwldiXU_geOQhDkF"
-    
-    settings.load_environment_variables("dev.env")    
-        
+    settings.load_environment_variables("dev.env")        
     client = youtube_client.YouTubeClient(os.getenv("YOUTUBE_API_KEY"))
     
     playlist = client.get_playlist_items(TEST_PLAYLIST_ID)
     
-    Printer.terminal_playlist_printer(playlist)
+    export_to_text(playlist['videos'], "./results/result.txt")
+    export_to_pdf(playlist['videos'], "./results/result.pdf")
+    
 except ValueError as ve:
     print(f"Configuration Error or Invalid Input: {ve}")
 except HttpError as he:

@@ -166,6 +166,7 @@ results
 ideas.txt
 db/
 logs/
+results/
 
 ## Environment Files
 *.env
