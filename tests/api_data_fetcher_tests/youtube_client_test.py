@@ -11,7 +11,7 @@ if src_directory not in sys.path:
     sys.path.insert(-1, src_directory)
 
 from playlist_maintainer.api_data_fetcher import youtube_client
-from playlist_maintainer.configs import settings
+from . import config
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
@@ -20,7 +20,7 @@ TEST_PLAYLIST_ID = "PLF3zXdEnM3eU2TSmpJwldiXU_geOQhDkF"
 
 
 try:
-    settings.load_environment_variables("dev.env")    
+    config.load_environment_variables("dev.env")    
         
     client = youtube_client.YouTubeClient(os.getenv("YOUTUBE_API_KEY"))
     
