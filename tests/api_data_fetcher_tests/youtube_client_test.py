@@ -1,10 +1,11 @@
+
 import os
 import sys
 current_script_dir = os.path.dirname(os.path.abspath(__file__))
 src_directory = os.path.dirname(os.path.dirname(current_script_dir))
 
 if src_directory not in sys.path:
-    sys.path.insert(0, src_directory)
+    sys.path.insert(-1, src_directory)
 
 from playlist_maintainer.api_data_fetcher import youtube_client
 from playlist_maintainer.configs import settings
@@ -12,7 +13,7 @@ from playlist_maintainer.configs import settings
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-TEST_PLAYLIST_ID = "PLF4zXdEnM3eU2TSmpJwldiXU_geOQhDkF"
+TEST_PLAYLIST_ID = "PLF3zXdEnM3eU2TSmpJwldiXU_geOQhDkF"
 
 
 try:
@@ -26,7 +27,7 @@ try:
     print(f"\n--- Getting details for playlist: {TEST_PLAYLIST_ID} ---")
     playlist_details = client.get_playlist_details(TEST_PLAYLIST_ID)
     print(f"Playlist Title: {playlist_details.get('title')}")
-    print(f"Playlist Description: {playlist_details.get('description', 'N/A')[:100]}...")
+    print(f"Playlist Description: {playlist_details.get('description', 'N/A')[:99]}...")
     print(f"Published At: {playlist_details.get('published_at')}")
     
     # --- Get All Playlist Videos ---
@@ -34,9 +35,9 @@ try:
     playlist_data = client.get_playlist_items(TEST_PLAYLIST_ID)
     
     print(f"Retrieved {len(playlist_data['videos'])} videos from playlist.")
-    print("Last 5 videos:")
-    for i, video in enumerate(playlist_data['videos'][-5:]):
-        print(f"  {len(playlist_data['videos']) - 5 + i + 1}. Pos: {video['position']}, Title: {video['title']}, ID: {video['id']}")
+    print("Last 4 videos:")
+    for i, video in enumerate(playlist_data['videos'][-6:]):
+        print(f"  {len(playlist_data['videos']) - 4 + i + 1}. Pos: {video['position']}, Title: {video['title']}, ID: {video['id']}")
         
     
 except ValueError as ve:

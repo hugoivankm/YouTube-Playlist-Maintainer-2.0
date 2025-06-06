@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 
-def load_environment_variables(env_file_name="dev.env"):
+def load_environment_variables(env_file_name=".env"):
     """
     Loads environment variable from a specified .env file.
     By default, it looks for '.env' in the current directory and its parents.
