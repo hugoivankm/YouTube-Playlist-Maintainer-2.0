@@ -17,8 +17,3 @@ def format_item_line(item: dict)-> str:
     except KeyError as e:
         print(f"Warning: Missing expected key in item data for formatting: {e}. Item: {item.get('snippet', {})}")
         return f"Error formatting item: Missing {e}"
-    
-    
-def generate_timestamp_string()->str:
-    now = datetime.datetime.now()
-    return now.strftime("%Y-%m-%d_%H-%M-%S-%f")

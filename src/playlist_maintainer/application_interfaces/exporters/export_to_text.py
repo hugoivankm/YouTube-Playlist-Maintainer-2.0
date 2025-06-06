@@ -1,6 +1,6 @@
-from playlist_maintainer.application_interfaces.file_exporters.exporter_utils import format_item_line
+from playlist_maintainer.application_interfaces.exporters.exporter_utils import format_item_line
 
-def export_to_text(items: list, output_filepath: str):
+def export_to_text(items: list, output_filepath: str, playlist_title: str = "YouTube Playlist"):
     """
     Exports playlist items to a plain text file.
 
@@ -11,6 +11,7 @@ def export_to_text(items: list, output_filepath: str):
     
     try:
         with open(output_filepath, 'w', encoding='utf-8') as f:
+            f.write(playlist_title +'\n\n')
             for item in items:
                 f.write(format_item_line(item) + '\n')
             print(f"Successfully exported playlist to text file: {output_filepath}")

@@ -1,5 +1,5 @@
 from fpdf import FPDF
-from playlist_maintainer.application_interfaces.file_exporters.exporter_utils import format_item_line
+from playlist_maintainer.application_interfaces.exporters.exporter_utils import format_item_line
 import sys
 import os
 

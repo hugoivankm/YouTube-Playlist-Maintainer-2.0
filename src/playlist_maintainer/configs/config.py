@@ -17,7 +17,7 @@ class AppConfig:
     
         self.youtube_api_key = os.getenv("YOUTUBE_API_KEY")
         if not self.youtube_api_key:
-            raise ValueError("YOUTUBE_API_KEY environment variable is not set")
+            raise ValueError("YOUTUBE_API_KEY environment variable is not set. Please ensure it's in your environment file or system environment")
 
 
 
