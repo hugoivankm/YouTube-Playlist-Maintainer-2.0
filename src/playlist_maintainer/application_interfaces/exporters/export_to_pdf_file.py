@@ -8,7 +8,7 @@ def export_to_pdf(items: list, output_filepath: str, playlist_title: str = "YouT
     Exports playlist items to a PDF file.
 
     Args:
-        items (list): A list of playlist item dictionaries (from YouTube API).
+        items (list): A list of PlaylistItem
         output_filepath (str): The path to the output PDF file (e.g., "playlist.pdf").
         playlist_title (str): The title of the playlist to display in the PDF header.
     """   

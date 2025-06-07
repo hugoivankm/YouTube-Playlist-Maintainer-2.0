@@ -1,6 +1,11 @@
+import re
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
+
+from playlist_maintainer.models.PlaylistItem import PlaylistItem
+from playlist_maintainer.models.PlaylistItems import PlaylistItems
+from playlist_maintainer.models.PlaylistDetails import PlaylistDetails
 
 
 class YouTubeClient:
@@ -37,6 +42,27 @@ class YouTubeClient:
         if self.youtube:
             self.youtube.close()
     
+    def _parse_ISO8601_duration(self, iso_duration: str) -> str:
+        """
+        Converts ISO 8601 duration (e.g., 'PT3M15S') to a human-readable string (e.g., '3:15' or '1:05:30').
+        """
+        match = re.match(r'PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?', iso_duration)
+        if not iso_duration or not match:
+            return "N/A"
+        hours = int(match.group(1)) if match.group(1) else 0
+        minutes = int(match.group(2)) if match.group(2) else 0
+        seconds = int(match.group(3)) if match.group(3) else 0
+        
+        total_seconds = hours * 3600 + minutes * 60 + seconds
+        if total_seconds == 0:
+            return "0:00"
+        
+        if hours > 0:
+            return f"{hours}:{minutes:02}:{seconds:02}"
+        else:
+            return f"{minutes}:{seconds:02}"
+        
+        
     def get_playlist_items(self, playlist_id: str) -> dict:
         """
         Retrieves all video items from a given YouTube playlist, handling pagination.
@@ -45,22 +71,13 @@ class YouTubeClient:
             playlist_id (str): The ID of the YouTube playlist.
 
         Returns:
-            dict: A dictionary containing playlist id and a list of video details.
-                  Example:
-                  {
-                      "playlist_id": "...",
-                      "videos": [
-                          {"id": "...", "title": "...", "channel_title": "...", "position": 0},
-                          ...
-                      ]
-                  }
+            PlaylistItems
         Raises:
             HttpError: If an API request fails.
             ValueError: If playlist_id is invalid or no items are found.
         """
         all_videos = []
         next_page_token = None
-        
         try:
             while True:
                 request = self.youtube.playlistItems().list(
@@ -73,25 +90,24 @@ class YouTubeClient:
                 for item in response.get('items', []):
                     video_snippet = item.get('snippet', {})
                     video_id = video_snippet.get('resourceId',{}).get('videoId')
+                    video_duration = self._parse_ISO8601_duration(item.get('contentDetails', {}).get('duration', ""))
                     
                     if video_id:
-                        all_videos.append({
-                            "id": video_id,
-                            "title": video_snippet.get('title'),
-                            "channel_title": video_snippet.get('channelTitle'),
-                            "position": video_snippet.get('position')
-                        })
+                        title = video_snippet.get('title'),
+                        channel_title = video_snippet.get('channelTitle'),
+                        position = video_snippet.get('position')
+                        all_videos.append(
+                            PlaylistItem(title, channel_title, video_duration, video_id, position)
+                        )
+                        
                 next_page_token = response.get('nextPageToken')
                 if not next_page_token:
                     break;       
         
                 if not all_videos:
                     raise ValueError(f"No videos found for playlist ID: {playlist_id}. Check if the ID is correct and playlist is public.")
-                
-            return {
-                "playlist_id": playlist_id,
-                "videos": all_videos
-            }
+   
+            return PlaylistItems(playlist_id, all_videos)
                 
         except HttpError as e:
             if e.resp.status == 404:
@@ -102,6 +118,7 @@ class YouTubeClient:
                 raise HttpError(f"YouTube API error getting playlist items: {e}", e.resp)
         except Exception as e:
             raise RuntimeError(f"An unexpected error occurred while fetching playlist items: {e}")
+    
     
     def get_playlist_details(self, playlist_id: str) -> dict:
         """
@@ -117,23 +134,23 @@ class YouTubeClient:
             ValueError: If playlist_id is invalid or playlist not found.
         """
         try:
-           request = self.youtube.playlists().list(
+            request = self.youtube.playlists().list(
                part="snippet",
                id=playlist_id
-           )
-           response = request.execute()
-           if not response.get('items'):
+            )
+            
+            response = request.execute()
+            if not response.get('items'):
                raise ValueError(f"Playlist with ID '{playlist_id}' not found or no details available.")
            
-           playlist_snippet = response['items'][0]['snippet']
-           return {
-               "id": playlist_id,
-               "title": playlist_snippet.get('title'),
-               "description": playlist_snippet.get('description'),
-               "published_at": playlist_snippet.get('publishedAt'),
-               "channel_id": playlist_snippet.get('channelId'),
-               "channel_title": playlist_snippet.get('channelTitle')
-           }
+            playlist_snippet = response['items'][0]['snippet']
+            title = playlist_snippet.get('title'),
+            description = playlist_snippet.get('description'),
+            published_at = playlist_snippet.get('publishedAt'),
+            channel_id = playlist_snippet.get('channelId'),
+            channel_title = playlist_snippet.get('channelTitle')
+
+            return PlaylistDetails(playlist_id, title, description, published_at, channel_id, channel_title )
 
         except HttpError as e:
             if e.resp.status == 404:

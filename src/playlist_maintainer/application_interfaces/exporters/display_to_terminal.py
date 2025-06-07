@@ -1,6 +1,11 @@
+from playlist_maintainer.models.PlaylistDetails import PlaylistDetails
+from playlist_maintainer.models.PlaylistItems import PlaylistItems
+from playlist_maintainer.models.PlaylistItem import PlaylistItem
+
+
 def display_playlist_to_terminal(
-    playlist_details: str | None,
-    playlist_items: str | None,
+    playlist_details: PlaylistDetails | None,
+    playlist_items: PlaylistItems | None,
     limit: int = -1
     ):
     """
@@ -11,16 +16,12 @@ def display_playlist_to_terminal(
         print('-' * 80)
         print('-' * 80)
         return
-    videos = []    
-    if type(playlist_items) is dict:
-        videos = playlist_items['videos']
-    elif type(playlist_items) is list:
-        videos = playlist_items
-    else:
-        raise TypeError(f"Parameter playlist_items must be a dictionary or a list")
     
+    videos = []
+    if playlist_items:
+        videos = playlist_items.videos if playlist_items.videos else []
     if playlist_details:
-        header = f"\n--- Playlist: {playlist_details['title']}"
+        header = f"\n--- Playlist: {playlist_details.title}"
         if videos:
             header += f" ({len(videos)} items)"
         header += " ---"
@@ -32,7 +33,7 @@ def display_playlist_to_terminal(
     if limit < -1:
         raise ValueError("limit must be a positive interger or -1 to display the full video list")
     for i, video in enumerate(videos[:display_limit]):
-        print(f"{i+1}. {video['title']}")    
+        print(f"{i+1}. {video.title}")    
 
     if (len(videos) > display_limit):
         print(f"... and {len(videos) - display_limit} more items (use --limit to show more) ...")

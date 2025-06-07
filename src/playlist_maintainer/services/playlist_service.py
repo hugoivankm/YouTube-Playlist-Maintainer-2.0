@@ -6,7 +6,7 @@ from enum import Enum
 
 from playlist_maintainer.configs.config import get_app_config
 from playlist_maintainer.api_data_fetcher.youtube_client import YouTubeClient
-from playlist_maintainer.application_interfaces.exporters.export_to_pdf import export_to_pdf
+from playlist_maintainer.application_interfaces.exporters.export_to_pdf_file import export_to_pdf
 from playlist_maintainer.application_interfaces.exporters.export_to_text import export_to_text
 
 
