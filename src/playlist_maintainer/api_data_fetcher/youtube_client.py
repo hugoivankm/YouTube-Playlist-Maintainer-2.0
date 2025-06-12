@@ -95,7 +95,7 @@ class YouTubeClient:
                     if video_id:
                         title = video_snippet.get('title'),
                         channel_title = video_snippet.get('channelTitle'),
-                        position = video_snippet.get('position')
+                        position = video_snippet.get('position', '--')
                         all_videos.append(
                             PlaylistItem(title, channel_title, video_duration, video_id, position)
                         )

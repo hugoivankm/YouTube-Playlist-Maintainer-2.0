@@ -4,11 +4,6 @@ Manual tests just to visualize in the terminal
 
 import os
 import sys
-current_script_dir = os.path.dirname(os.path.abspath(__file__))
-src_directory = os.path.dirname(os.path.dirname(current_script_dir))
-
-if src_directory not in sys.path:
-    sys.path.insert(-1, src_directory)
 
 from playlist_maintainer.api_data_fetcher import youtube_client
 from . import config

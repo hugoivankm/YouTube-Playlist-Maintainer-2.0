@@ -14,7 +14,7 @@ class PlaylistItem:
         self.position = position
 
     def __repr__(self):
-        return f"PlaylistItem(title='{self.title}', artist='{self.artist}', duration_str='{self.duration_str}')"
+        return f"PlaylistItem(title='{self.title}', duration_str='{self.duration_str}')"
 
     def __str__(self):
-        return f"{self.title} by {self.artist} ({self.duration_str})"
+        return f"{self.title} - {self.duration_str}"

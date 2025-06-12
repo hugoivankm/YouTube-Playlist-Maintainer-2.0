@@ -3,7 +3,7 @@ from playlist_maintainer.application_interfaces.exporters.exporter_utils import 
 import sys
 import os
 
-def export_to_pdf(items: list, output_filepath: str, playlist_title: str = "YouTube Playlist"):
+def export_to_pdf_file(items: list, output_filepath: str, playlist_title: str = "YouTube Playlist"):
     """
     Exports playlist items to a PDF file.
 

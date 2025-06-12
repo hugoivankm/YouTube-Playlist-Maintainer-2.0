@@ -12,8 +12,8 @@ dependencies = [
     "google-api-python-client (>=2.170.0,<3.0.0)",
     "python-dotenv (>=1.1.0,<2.0.0)",
     "fpdf2 (>=2.8.3,<3.0.0)",
+    "click (>=8.2.1,<9.0.0)",
 ]
-
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
@@ -23,3 +23,6 @@ build-backend = "poetry.core.masonry.api"
 packages = [
     { include = "playlist_maintainer", from = "src" }
 ]
+
+[tool.poetry.scripts]
+ytpl = "src.playlist_maintainer.application_interfaces.cli.main:ytpl"
