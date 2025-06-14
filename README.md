@@ -54,10 +54,9 @@ myEnv.env: An example for a myEnv environment.
 Currently a settings.toml file is created in the user's home directory ($HOME) the first time the application is run, currently this can be done only through the CLI
 '$HOME/ytpl/settings.toml'
 
-# This value will be overridden by APP_ENV environment variable or the --env CLI flag.
-default_env_filename = ".env"
+###### This value will be overridden by APP_ENV environment variable or the --env CLI flag.
 
-# General application settings (examples)
+### General application settings (examples)
 log_level = "INFO"
 default_fetch_limit = 25
 Environment Precedence
