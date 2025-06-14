@@ -3,7 +3,7 @@ import tomllib
 import pathlib
 import shutil
 from dotenv import load_dotenv
-from playlist_maintainer.app_config import get_app_config
+from playlist_maintainer.app_config import AppConfig
 
 
 _app_initialized = False
@@ -69,7 +69,7 @@ def initialize_app(env_file_name: str = None):
                 env = env.strip()
                 env += ".env"
             load_dotenv(f"./configs/{env}")
-            get_app_config(env, settings)
+            AppConfig.get_app_config(env, settings)
         else:
             print("No env specified, falling back to environment variables previous created by user.")
             

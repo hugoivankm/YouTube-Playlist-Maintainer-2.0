@@ -28,12 +28,13 @@ def display_playlist_to_terminal(
     
     display_limit = min(limit, len(videos))
     if limit == -1:
-        limit = len(videos) + 2
+        limit = len(videos)
     if limit < -1:
         raise ValueError("limit must be a positive interger or -1 to display the full video list")
     for i, video in enumerate(videos[:display_limit]):
         print(f"{i+1}. {video.title}")    
 
-    if (len(videos) >= display_limit):
+
+    if (display_limit > 0 and len(videos) > display_limit):
         print(f"... and {len(videos) - display_limit} more items (use --limit to show more or --limit -1 to show all) ...")
     print('-' * 80, "\n")

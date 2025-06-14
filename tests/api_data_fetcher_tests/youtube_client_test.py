@@ -3,15 +3,13 @@ Manual tests just to visualize in the terminal
 """
 
 import os
-import sys
 
 from playlist_maintainer.api_data_fetcher import youtube_client
 from . import config
 
-from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-TEST_PLAYLIST_ID = "PLF3zXdEnM3eU2TSmpJwldiXU_geOQhDkF"
+TEST_PLAYLIST_ID = "PLAKPPAHY4SIKwNBbAcVa48KVUBbh6PHOA"
 
 
 try:

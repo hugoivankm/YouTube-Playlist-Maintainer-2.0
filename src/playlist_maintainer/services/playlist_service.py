@@ -4,7 +4,7 @@ import datetime
 
 from enum import Enum
 
-from playlist_maintainer.app_config import get_app_config
+from playlist_maintainer.app_config import AppConfig
 from playlist_maintainer.api_data_fetcher.youtube_client import YouTubeClient
 from playlist_maintainer.application_interfaces.exporters.export_to_pdf_file import (
     export_to_pdf_file,
@@ -19,7 +19,7 @@ from playlist_maintainer.application_interfaces.exporters.display_to_terminal im
 
 class PlaylistService:
     def __init__(self):
-        config = get_app_config(None)
+        config = AppConfig.get_app_config(None)
         self.api_client = YouTubeClient(config.youtube_api_key)
 
     def _get_playlist_id_from_url(self, url: str) -> str | None:
